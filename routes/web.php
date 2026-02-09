@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Models\Quotation;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::resource('leads', LeadController::class);
     Route::resource('hotels', HotelController::class);
+    Route::resource('quotations', QuotationController::class);
+    Route::get('quotations/{quotation}/pdf', [QuotationController::class, 'pdf'])->name('quotations.pdf');
+});
+
+Route::get('/quotation/{uuid}', function ($uuid) {
+    $quotation = Quotation::where('share_uuid', $uuid)
+        ->firstOrFail();
+    return view('quotation.public', compact('quotation'));
 });
 
 require __DIR__.'/auth.php';
