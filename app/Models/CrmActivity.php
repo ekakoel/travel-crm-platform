@@ -2,10 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CrmActivity extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'type', 'note', 'activity_date'
+    ];
+
+    protected $casts = [
+        'activity_date' => 'datetime'
+    ];
+
+    public function subject()
+    {
+        return $this->morphTo();
+    }
 }
+

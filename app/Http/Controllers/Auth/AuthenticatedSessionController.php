@@ -12,6 +12,19 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+    protected function authenticated(Request $request, $user)
+    {
+        foreach ($user->getRoleNames() as $role) {
+            $route = config("role-dashboard.$role");
+
+            if ($route) {
+                return redirect()->route($route);
+            }
+        }
+
+        return redirect('/dashboard'); // fallback
+    }
+
     /**
      * Display the login view.
      */

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hotel_room_id')->constrained();
-            $table->decimal('price', 12, 2);
-            $table->string('currency', 3)->default('USD');
+            $table->morphs('rateable'); // hotel_room / product
+            $table->decimal('net_price', 15, 2);
+            $table->decimal('publish_price', 15, 2);
+            $table->string('currency', 5)->default('USD');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

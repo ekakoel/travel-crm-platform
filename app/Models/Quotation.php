@@ -2,30 +2,20 @@
 
 namespace App\Models;
 
-use App\Models\QuotationLog;
-use App\Models\QuotationItem;
-use App\Models\QuotationHotel;
-use App\Models\QuotationShare;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Quotation extends Model
 {
-    use HasFactory;
     protected $fillable = [
-        'currency','pax','subtotal','margin','total',
-        'valid_until','status','share_uuid'
+        'code', 'pax', 'total_price',
+        'currency', 'valid_until', 'status'
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($q) {
-            $q->code = 'QT-' . now()->format('Ymd') . '-' . rand(1000,9999);
-            $q->share_uuid = Str::uuid();
-        });
-    }
+    protected $casts = [
+        'valid_until' => 'date'
+    ];
 
-    public function quotable()
+    public function customerable()
     {
         return $this->morphTo();
     }
@@ -35,18 +25,14 @@ class Quotation extends Model
         return $this->hasMany(QuotationItem::class);
     }
 
-    public function hotels()
-    {
-        return $this->hasMany(QuotationHotel::class);
-    }
-
     public function logs()
     {
         return $this->hasMany(QuotationLog::class);
     }
 
-    public function shares()
+    public function booking()
     {
-        return $this->hasMany(QuotationShare::class);
+        return $this->hasOne(Booking::class);
     }
 }
+

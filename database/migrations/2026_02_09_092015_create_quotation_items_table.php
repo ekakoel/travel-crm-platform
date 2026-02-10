@@ -14,12 +14,9 @@ return new class extends Migration
         Schema::create('quotation_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('quotation_id')->constrained()->cascadeOnDelete();
-
-            $table->string('name');
-            $table->integer('qty')->default(1);
+            $table->morphs('itemable'); // product / hotel_room
+            $table->integer('qty');
             $table->decimal('price', 15, 2);
-            $table->decimal('total', 15, 2);
-
             $table->timestamps();
         });
     }

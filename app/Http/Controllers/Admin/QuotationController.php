@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class QuotationController extends Controller
 {

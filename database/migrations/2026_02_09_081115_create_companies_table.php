@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('agent');
+            $table->string('name');
+            $table->string('country')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->decimal('credit_limit', 15, 2)->default(0);
             $table->timestamps();
         });
     }

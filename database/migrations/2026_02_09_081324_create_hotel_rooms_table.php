@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('hotel_rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hotel_id')->constrained();
-            $table->string('name');
+            $table->foreignId('hotel_id')->constrained()->cascadeOnDelete();
+            $table->string('room_type');
             $table->integer('max_pax');
             $table->timestamps();
         });

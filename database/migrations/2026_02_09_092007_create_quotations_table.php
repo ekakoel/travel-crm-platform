@@ -13,30 +13,13 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-
-            // siapa yang minta
-            $table->nullableMorphs('quotable'); 
-            // Admin (B2C) atau Agent (B2B)
-
             $table->string('code')->unique();
-            $table->string('currency', 3)->default('USD');
-            $table->integer('pax')->default(1);
-
-            $table->decimal('subtotal', 15, 2)->default(0);
-            $table->decimal('margin', 15, 2)->default(0);
-            $table->decimal('total', 15, 2)->default(0);
-
-            $table->date('valid_until')->nullable();
-
-            $table->enum('status', [
-                'draft',
-                'sent',
-                'approved',
-                'expired',
-                'rejected'
-            ])->default('draft');
-
-            $table->uuid('share_uuid')->unique();
+            $table->nullableMorphs('customerable'); // agent / customer
+            $table->integer('pax');
+            $table->decimal('total_price', 15, 2);
+            $table->string('currency', 5);
+            $table->date('valid_until');
+            $table->string('status')->default('draft'); // draft, sent, approved, expired
 
             $table->timestamps();
         });

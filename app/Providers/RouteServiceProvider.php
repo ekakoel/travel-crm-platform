@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,24 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/dashboard';
 
+    public static function redirectTo()
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return '/login';
+        }
+
+        if ($user->hasRole(['Super Admin', 'Sales', 'Operation', 'Finance'])) {
+            return route('admin.dashboard');
+        }
+
+        if ($user->hasRole('B2B Agent')) {
+            return route('agent.dashboard');
+        }
+
+        return '/';
+    }
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */

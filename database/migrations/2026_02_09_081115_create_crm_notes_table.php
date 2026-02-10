@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('crm_notes', function (Blueprint $table) {
             $table->id();
+            $table->morphs('noteable');
+            $table->text('note');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

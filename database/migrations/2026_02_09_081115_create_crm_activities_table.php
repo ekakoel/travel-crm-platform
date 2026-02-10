@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('crm_activities', function (Blueprint $table) {
             $table->id();
+            $table->morphs('subject'); // lead / customer / agent
+            $table->string('type'); // call, email, whatsapp
+            $table->text('note')->nullable();
+            $table->timestamp('activity_date');
             $table->timestamps();
         });
     }

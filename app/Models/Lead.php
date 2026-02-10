@@ -2,19 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
 {
-    use HasFactory;
-    
     protected $fillable = [
-        'name','email','phone','source','status','assigned_to'
+        'name', 'source', 'status', 'assigned_to'
     ];
 
-    public function sales()
+    public function assignedUser()
     {
-        return $this->belongsTo(Admin::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function activities()
+    {
+        return $this->morphMany(CrmActivity::class, 'subject');
+    }
+
+    public function notes()
+    {
+        return $this->morphMany(CrmNote::class, 'noteable');
     }
 }
+

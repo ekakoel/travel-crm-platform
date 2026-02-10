@@ -11,11 +11,9 @@ return new class extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->enum('source', ['website','whatsapp','instagram','agent']);
-            $table->enum('status', ['new','contacted','quoted','won','lost'])->default('new');
-            $table->foreignId('assigned_to')->nullable()->constrained('admins');
+            $table->string('source'); // IG, WA, Website, Agent
+            $table->string('status')->default('new'); // new, contacted, quoted, won, lost
+            $table->foreignId('assigned_to')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

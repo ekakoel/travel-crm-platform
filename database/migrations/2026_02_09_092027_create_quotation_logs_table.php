@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('quotation_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('quotation_id')->constrained()->cascadeOnDelete();
-            $table->text('note');
-            $table->foreignId('admin_id')->nullable()->constrained();
+            $table->string('action');
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
